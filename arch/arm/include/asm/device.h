@@ -19,7 +19,12 @@ struct dev_archdata {
 #ifdef CONFIG_XEN
 	const struct dma_map_ops *dev_dma_ops;
 #endif
+<<<<<<< HEAD
 	bool dma_coherent;
+=======
+	unsigned int dma_coherent:1;
+	unsigned int dma_ops_setup:1;
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 };
 
 struct omap_device;

@@ -24,10 +24,16 @@ EXTRA_FLAGS += -I$(PWD)
 # any valid path to the directory in which the target kernel's source is located
 # can be provided on the command line.
 #
+<<<<<<< HEAD
 KDIR	:= /lib/modules/$(shell uname -r)/build
 MDIR	:= /lib/modules/$(shell uname -r)
 PWD	:= $(shell pwd)
 KREL	:= $(shell cd ${KDIR} && make -s kernelrelease)
+=======
+KDIR	?= /lib/modules/$(shell uname -r)/build
+MDIR	?= /lib/modules/$(shell uname -r)
+PWD	:= $(shell pwd)
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 PWD	:= $(shell pwd)
 
 export CONFIG_EXFAT_FS := m

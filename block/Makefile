@@ -20,8 +20,14 @@ obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
 obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
 obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
 obj-$(CONFIG_MQ_IOSCHED_DEADLINE)	+= mq-deadline.o
+<<<<<<< HEAD
 obj-$(CONFIG_IOSCHED_BFQ)	+= bfq-iosched.o
 obj-$(CONFIG_MQ_IOSCHED_BFQ)	+= bfq-mq-iosched.o
+=======
+obj-$(CONFIG_MQ_IOSCHED_KYBER)	+= kyber-iosched.o
+bfq-y				:= bfq-iosched.o bfq-wf2q.o bfq-cgroup.o
+obj-$(CONFIG_IOSCHED_BFQ)	+= bfq.o
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

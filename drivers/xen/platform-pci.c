@@ -90,8 +90,13 @@ static int xen_allocate_irq(struct pci_dev *pdev)
 static int platform_pci_resume(struct pci_dev *pdev)
 {
 	int err;
+<<<<<<< HEAD
+=======
+
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 	if (xen_have_vector_callback)
 		return 0;
+
 	err = xen_set_callback_via(callback_via);
 	if (err) {
 		dev_err(&pdev->dev, "platform_pci_resume failure!\n");
@@ -137,7 +142,10 @@ static int platform_pci_probe(struct pci_dev *pdev,
 
 	platform_mmio = mmio_addr;
 	platform_mmiolen = mmio_len;
+<<<<<<< HEAD
 
+=======
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 	if (!xen_have_vector_callback) {
 		ret = xen_allocate_irq(pdev);
 		if (ret) {

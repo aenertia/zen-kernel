@@ -1052,6 +1052,7 @@ xfs_find_get_desired_pgoff(
 		want = min_t(pgoff_t, end - index, PAGEVEC_SIZE - 1) + 1;
 		nr_pages = pagevec_lookup(&pvec, inode->i_mapping, index,
 					  want);
+<<<<<<< HEAD
 		/*
 		 * No page mapped into given range.  If we are searching holes
 		 * and if this is the first time we got into the loop, it means
@@ -1075,6 +1076,10 @@ xfs_find_get_desired_pgoff(
 			}
 			break;
 		}
+=======
+		if (nr_pages == 0)
+			break;
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 
 		for (i = 0; i < nr_pages; i++) {
 			struct page	*page = pvec.pages[i];
@@ -1140,21 +1145,20 @@ xfs_find_get_desired_pgoff(
 
 		/*
 		 * The number of returned pages less than our desired, search
-		 * done.  In this case, nothing was found for searching data,
-		 * but we found a hole behind the last offset.
+		 * done.
 		 */
-		if (nr_pages < want) {
-			if (type == HOLE_OFF) {
-				*offset = lastoff;
-				found = true;
-			}
+		if (nr_pages < want)
 			break;
-		}
 
 		index = pvec.pages[i - 1]->index + 1;
 		pagevec_release(&pvec);
 	} while (index <= end);
 
+	/* No page at lastoff and we are not done - we found a hole. */
+	if (type == HOLE_OFF && lastoff < endoff) {
+		*offset = lastoff;
+		found = true;
+	}
 out:
 	pagevec_release(&pvec);
 	return found;

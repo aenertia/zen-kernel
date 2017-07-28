@@ -416,9 +416,24 @@ acpi_tb_get_table(struct acpi_table_desc *table_desc,
 		}
 	}
 
+<<<<<<< HEAD
 	table_desc->validation_count++;
 	if (table_desc->validation_count == 0) {
 		table_desc->validation_count--;
+=======
+	if (table_desc->validation_count < ACPI_MAX_TABLE_VALIDATIONS) {
+		table_desc->validation_count++;
+
+		/*
+		 * Detect validation_count overflows to ensure that the warning
+		 * message will only be printed once.
+		 */
+		if (table_desc->validation_count >= ACPI_MAX_TABLE_VALIDATIONS) {
+			ACPI_WARNING((AE_INFO,
+				      "Table %p, Validation count overflows\n",
+				      table_desc));
+		}
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 	}
 
 	*out_table = table_desc->pointer;
@@ -445,13 +460,20 @@ void acpi_tb_put_table(struct acpi_table_desc *table_desc)
 
 	ACPI_FUNCTION_TRACE(acpi_tb_put_table);
 
-	if (table_desc->validation_count == 0) {
-		ACPI_WARNING((AE_INFO,
-			      "Table %p, Validation count is zero before decrement\n",
-			      table_desc));
-		return_VOID;
+	if (table_desc->validation_count < ACPI_MAX_TABLE_VALIDATIONS) {
+		table_desc->validation_count--;
+
+		/*
+		 * Detect validation_count underflows to ensure that the warning
+		 * message will only be printed once.
+		 */
+		if (table_desc->validation_count >= ACPI_MAX_TABLE_VALIDATIONS) {
+			ACPI_WARNING((AE_INFO,
+				      "Table %p, Validation count underflows\n",
+				      table_desc));
+			return_VOID;
+		}
 	}
-	table_desc->validation_count--;
 
 	if (table_desc->validation_count == 0) {
 

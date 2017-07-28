@@ -1648,6 +1648,10 @@ void xen_callback_vector(void)
 {
 	int rc;
 	uint64_t callback_via;
+<<<<<<< HEAD
+=======
+
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 	if (xen_have_vector_callback) {
 		callback_via = HVM_CALLBACK_VECTOR(HYPERVISOR_CALLBACK_VECTOR);
 		rc = xen_set_callback_via(callback_via);

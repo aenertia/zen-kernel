@@ -698,16 +698,25 @@ static int snd_us16x08_meter_get(struct snd_kcontrol *kcontrol,
 	struct snd_usb_audio *chip = elem->head.mixer->chip;
 	struct snd_us16x08_meter_store *store = elem->private_data;
 	u8 meter_urb[64];
+<<<<<<< HEAD
 	char tmp[max(sizeof(mix_init_msg1), sizeof(mix_init_msg2))];
 
 	switch (kcontrol->private_value) {
 	case 0:
+=======
+
+	switch (kcontrol->private_value) {
+	case 0: {
+		char tmp[sizeof(mix_init_msg1)];
+
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 		memcpy(tmp, mix_init_msg1, sizeof(mix_init_msg1));
 		snd_us16x08_send_urb(chip, tmp, 4);
 		snd_us16x08_recv_urb(chip, meter_urb,
 			sizeof(meter_urb));
 		kcontrol->private_value++;
 		break;
+	}
 	case 1:
 		snd_us16x08_recv_urb(chip, meter_urb,
 			sizeof(meter_urb));
@@ -718,7 +727,9 @@ static int snd_us16x08_meter_get(struct snd_kcontrol *kcontrol,
 			sizeof(meter_urb));
 		kcontrol->private_value++;
 		break;
-	case 3:
+	case 3: {
+		char tmp[sizeof(mix_init_msg2)];
+
 		memcpy(tmp, mix_init_msg2, sizeof(mix_init_msg2));
 		tmp[2] = snd_get_meter_comp_index(store);
 		snd_us16x08_send_urb(chip, tmp, 10);
@@ -726,6 +737,7 @@ static int snd_us16x08_meter_get(struct snd_kcontrol *kcontrol,
 			sizeof(meter_urb));
 		kcontrol->private_value = 0;
 		break;
+	}
 	}
 
 	for (set = 0; set < 6; set++)

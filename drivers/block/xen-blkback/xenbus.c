@@ -314,7 +314,10 @@ static int xen_blkif_disconnect(struct xen_blkif *blkif)
 
 static void xen_blkif_free(struct xen_blkif *blkif)
 {
+<<<<<<< HEAD
 
+=======
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 	WARN_ON(xen_blkif_disconnect(blkif));
 	xen_vbd_free(&blkif->vbd);
 	kfree(blkif->be->mode);
@@ -508,11 +511,18 @@ static int xen_blkbk_remove(struct xenbus_device *dev)
 
 	dev_set_drvdata(&dev->dev, NULL);
 
-	if (be->blkif)
+	if (be->blkif) {
 		xen_blkif_disconnect(be->blkif);
 
+<<<<<<< HEAD
 	/* Put the reference we set in xen_blkif_alloc(). */
 	xen_blkif_put(be->blkif);
+=======
+		/* Put the reference we set in xen_blkif_alloc(). */
+		xen_blkif_put(be->blkif);
+	}
+
+>>>>>>> a123ecd523de5811f0590da239c475be23d630db
 	return 0;
 }
 
